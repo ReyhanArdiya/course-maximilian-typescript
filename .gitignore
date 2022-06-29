@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+**/node_modules
 /.pnp
 .pnp.js
 
@@ -16,11 +17,13 @@
 
 # production
 /build
+**/build
 
 # misc
 .DS_Store
 *.pem
 *.zip
+**/*.zip
 
 # debug
 npm-debug.log*
