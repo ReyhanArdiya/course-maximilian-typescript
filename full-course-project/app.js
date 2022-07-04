@@ -1,17 +1,18 @@
-var userInput;
-var userName;
+"use strict";
+let userInput;
+let userName;
 userInput = 1;
 userInput = "1";
 userInput = false;
 userInput = [];
 userInput = {};
-userInput = function () { return 1; };
+userInput = () => 1;
 if (typeof userInput === "string") {
     userName = userInput;
 }
 // userName = userInput;
-var genError = function (msg, code) {
-    // throw { msg, code };
-    // while (true) {}
+const genError = (msg, code) => {
+    throw { msg, code };
 };
-var res = genError("e", 404);
+const u = 1;
+console.log("Meow!!!");

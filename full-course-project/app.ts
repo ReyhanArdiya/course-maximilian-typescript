@@ -14,8 +14,8 @@ if (typeof userInput === "string") {
 // userName = userInput;
 
 const genError = (msg: string, code: number) => {
-	// throw { msg, code };
-	// while (true) {}
+	throw { msg, code };
 };
+const u = 1;
 
-const res = genError("e", 404);
+console.log("Meow!!!");
