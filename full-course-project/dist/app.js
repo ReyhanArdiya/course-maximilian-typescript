@@ -1,30 +1,35 @@
 "use strict";
-class Person {
-    name;
-    age;
-    constructor(name, age) {
-        this.name = name;
-        this.age = age;
+const reyhan = {
+    name: "reyhan",
+    privileges: ["everything"],
+    startDate: new Date()
+};
+const A = {
+    a: 1,
+    b: 2,
+    c: 3
+};
+const B = {
+    b: 23874,
+    c: 3,
+    d: 4
+};
+const add = (a, b) => {
+    if (typeof a === "string" || typeof b === "string") {
+        return a.toString() + b.toString();
     }
-    greet() {
-        return `Hello! I am ${this.name} and ${this.age} old`;
+    return a + b;
+};
+const res = add(2, "2");
+const fetchedUser = {
+    name: "Reyhan",
+    id: "1",
+    job: {
+        title: "Web Developer",
+        description: "So fun!"
     }
-}
-const person = new Person("Max", 20);
-let addFn;
-addFn = (a, b) => a + b;
-const str = addFn("Meow", "mere");
-class Product {
-    name;
-    alternateName;
-    constructor(name, alternateName) {
-        this.name = name;
-        this.alternateName = alternateName;
-    }
-    printAlternateName() {
-        console.log(this.alternateName);
-    }
-}
-const book = new Product("Hello!");
-book.printAlternateName();
+};
+console.log(fetchedUser.job?.title);
+const userInput = null;
+const stored = userInput ?? "DEFAULT";
 //# sourceMappingURL=app.js.map
