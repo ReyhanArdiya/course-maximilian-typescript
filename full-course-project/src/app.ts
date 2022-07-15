@@ -1,218 +1,116 @@
-interface HasName {
+const merge = <
+	T1 extends Record<string, unknown>,
+	T2 extends Record<string, unknown>
+>(
+	o1: T1,
+	o2: T2
+) => ({
+	...o1,
+	...o2
+});
+
+const merged = merge({ m: 1 }, { e: 2 });
+// const mergedArr = merge([1, 2, 3], ["meowmere"]);
+
+interface HasLength {
+	length: number;
+}
+
+const countAndDesc = <T extends HasLength>(val: T): [typeof val, string] => {
+	const desc = val.length ? `Got ${val.length}` : "Got no value";
+	return [val, desc];
+};
+
+// console.log(countAndDesc(""));
+// console.log(countAndDesc("123"));
+// console.log(countAndDesc([1, 2, 3]));
+// console.log(countAndDesc({ length: 23 }));
+
+const extract = <T extends Record<string, unknown>, K extends keyof T>(
+	obj: T,
+	key: K
+) => obj[key];
+
+// console.log(extract({ hello: "world", miaw: 2 }, "miaw"));
+
+const ext3 = <
+	T1 extends Record<string, unknown>,
+	T2 extends Record<string, unknown>,
+	T3 extends Record<string, unknown>,
+	K extends keyof T1 & keyof T2 & keyof T3
+>(
+	o1: T1,
+	o2: T2,
+	o3: T3,
+	k: K
+) => {
+	if (k in o1 && k in o2 && k in o3) {
+		return o1[k];
+	}
+};
+
+// console.log(ext3({ a: true }, { a: 1, b: 2 }, { b: 2, c: 3, a: 1 }, "a"));
+
+class DataStorage<T extends string | number | boolean | unknown = unknown> {
+	private data: T[] = [];
+
+	addItem(item: T) {
+		this.data.push(item);
+	}
+
+	removeItem(item: T) {
+		const index = this.data.indexOf(item);
+		if (index >= 0) {
+			this.data.splice(index, 1);
+		}
+	}
+
+	get items() {
+		return [...this.data];
+	}
+}
+
+const textStore = new DataStorage();
+
+textStore.addItem({ meow: 1 });
+
+const numberStore = new DataStorage<number | string>();
+
+numberStore.addItem(12);
+console.log(numberStore.items);
+
+const objStore = new DataStorage<object>();
+
+objStore.addItem({ name: "Max" });
+objStore.addItem({ name: "Max" });
+
+objStore.removeItem({ name: "Max" });
+
+console.log(objStore.items);
+
+interface Mandatory {
+	age: number;
 	name: string;
+	goal: string[];
 }
 
-interface Privileged {
-	privileges: string[];
-}
-
-type Admin = HasName & Privileged;
-
-type Employee = HasName & { startDate: Date };
-
-type VIPEmployee = Admin & Employee;
-// interface VIPEmployee extends Admin, Employee {}
-
-const reyhan: VIPEmployee = {
-	name: "reyhan",
-	privileges: ["everything"],
-	startDate: new Date()
+const person: Partial<Mandatory> = {
+	age: 1
 };
 
-type Combinable = string | number;
-type Numeric = number | boolean;
+person.age = 1;
+person.goal = ["2"];
+person.name = "d";
 
-type Univ = Combinable & Numeric;
-type What = HasName & Combinable;
+const names: Partial<Mandatory> = {};
 
-const A = {
-	a: 1,
-	b: 2,
-	c: 3
-};
+names.age = 2;
+e;
+const sports: Readonly<string[]> = [];
 
-const B = {
-	b: 23874,
-	c: 3,
-	d: 4
-};
+const extractData = <T = 130>(
+	obj: Record<string, string>,
+	k: keyof typeof obj
+): T => obj[k];
 
-type KA = keyof typeof A;
-type KB = keyof typeof B;
-
-type AuB = KA & KB;
-type Meow = Univ & AuB;
-
-interface Add {
-	(a: Combinable, b: Combinable): Combinable;
-	(a: number, b: number): number;
-	(a: string, b: string): string;
-	(a: number, b: string): string;
-	(a: string, b: number): string;
-}
-
-const add = (a: Combinable, b: Combinable) => {
-	if (typeof a === "string" || typeof b === "string") {
-		return a.toString() + b.toString();
-	}
-
-	return a + b;
-};
-
-const res = add(2, "2");
-
-// type UnknownEmployee = Employee | Admin;
-
-// const printEmployeeInfo = (employee: UnknownEmployee) => {
-// 	console.log(employee.name);
-
-// 	if ("privileges" in employee) {
-// 		console.log(employee.privileges);
-// 	}
-
-// 	"startDate" in employee && console.log(employee.startDate);
-// };
-
-// // printEmployeeInfo({
-// // 	name: "Meow",
-// // 	privileges: ["meow"],
-// // 	startDate: new Date()
-// // });
-
-// abstract class Mobile {
-// 	drive() {
-// 		console.log("Driving...");
-// 	}
-// }
-
-// class Car extends Mobile {}
-
-// class Truck extends Mobile {
-// 	loadCargo(amt: number) {
-// 		console.log(`Loading: ${amt}`);
-// 	}
-// }
-
-// type Vehicle = Car | Truck;
-
-// const v1 = new Car();
-// const v2 = new Truck();
-
-// const useVehicle = (v: Vehicle) => {
-// 	v.drive();
-
-// 	if (v instanceof Truck) {
-// 		v.loadCargo(123);
-// 	}
-// };
-
-// // useVehicle(new Truck());
-
-// interface Bird {
-// 	type: "bird";
-// 	flyingSpeed: number;
-// }
-
-// interface Horse {
-// 	type: "horse";
-// 	runningSpeed: number;
-// }
-
-// type Animal = Bird | Horse;
-
-// const moveAnimal = (a: Animal) => {
-// 	let speed: number;
-
-// 	switch (a.type) {
-// 		case "bird":
-// 			speed = a.flyingSpeed;
-// 			break;
-
-// 		case "horse":
-// 			speed = a.runningSpeed;
-// 			break;
-// 	}
-
-// 	console.log(`Moving speed: ${speed}`);
-// };
-
-// // moveAnimal({
-// // 	type: "bird",
-// // 	flyingSpeed: 2389
-// // });
-
-// // moveAnimal({
-// // 	type: "horse",
-// // 	runningSpeed: 22
-// // });
-
-// const p = document.querySelector("#user-input") as HTMLInputElement;
-// // const p = <HTMLInputElement>document.querySelector("#user-input");
-
-// p.value = "meowmere";
-
-// interface Member {
-// 	name: string;
-// 	age: number;
-// 	role: "Admin" | "Basic";
-// }
-
-// type Members = Record<string, Member>;
-// // type Members = {
-// // 	[name: string]: Member;
-// // };
-// // interface Members {
-// // 	[name: string]: Member;
-// // }
-// type AMembers = Member[];
-
-// const members: Members = {};
-
-// interface IError extends Error {}
-
-// interface ErrorContainer {
-// 	[errorName: string]: IError;
-// 	email: IError;
-// }
-
-// const errorContainer: ErrorContainer = {
-// 	email: {
-// 		message: "Meow",
-// 		name: "Meow"
-// 	},
-// 	user: {
-// 		message: "Meow",
-// 		name: "Meow"
-// 	},
-// 	[{ meow: 1 }.toString()]: {
-// 		message: "Meow",
-// 		name: "Meow"
-// 	}
-// };
-
-interface FetchedUser {
-	name?: string;
-	id?: string;
-	job?: {
-		title: string;
-		description: string;
-	};
-}
-
-/**
- * Hellow rold
- */
-const fetchedUser: FetchedUser = {
-	name: "Reyhan",
-	id: "1",
-	job: {
-		title: "Web Developer",
-		description: "So fun!"
-	}
-};
-
-console.log(fetchedUser.job?.title);
-
-const userInput: string | null = null;
-
-const stored = userInput ?? "DEFAULT";
+const res = extractData(130, "e");
