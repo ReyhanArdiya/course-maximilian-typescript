@@ -1,0 +1,27 @@
+@baseUrl = http://localhost:3000/todos
+
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "start": "meow1",
+    "title": "Hello world!"
+}
+
+###
+
+GET {{baseUrl}}
+
+###
+
+DELETE {{baseUrl}}/23854.648699369576
+
+###
+
+PATCH {{baseUrl}}/25053.363374149452
+Content-Type: application/json
+
+{
+    "meow":12478,
+    "title":"Goodbye World!"
+}
